@@ -1,0 +1,121 @@
+{
+  "lastUpdated": "2024-09-15T20:00:00+08:00",
+  "updateSchedule": "每晚8点(UTC+8)更新数据",
+  "totalStats": {
+    "followers": 52,
+    "engagement": "12.5%",
+    "totalPosts": 15
+  },
+  "dailyData": {
+    "1": {
+      "date": "2024-09-01",
+      "followers": 0,
+      "posts": [
+        {
+          "title": "30天社媒增长实验正式启动！",
+          "url": "https://x.com/official/status/1",
+          "type": "announcement"
+        }
+      ]
+    },
+    "2": {
+      "date": "2024-09-02",
+      "followers": 8,
+      "posts": [
+        {
+          "title": "品牌故事：我们为什么要做这个实验",
+          "url": "https://x.com/official/status/2",
+          "type": "brand"
+        }
+      ]
+    },
+    "3": {
+      "date": "2024-09-03",
+      "followers": 15,
+      "posts": [
+        {
+          "title": "团队介绍：认识我们的核心成员",
+          "url": "https://x.com/official/status/3",
+          "type": "team"
+        }
+      ]
+    },
+    "4": {
+      "date": "2024-09-04",
+      "followers": 22,
+      "posts": [
+        {
+          "title": "产品愿景：打造下一代社交工具",
+          "url": "https://x.com/official/status/4",
+          "type": "vision"
+        }
+      ]
+    },
+    "5": {
+      "date": "2024-09-05",
+      "followers": 28,
+      "posts": [
+        {
+          "title": "用户反馈：感谢大家的支持与建议",
+          "url": "https://x.com/official/status/5",
+          "type": "feedback"
+        }
+      ]
+    },
+    "6": {
+      "date": "2024-09-06",
+      "followers": 35,
+      "posts": [
+        {
+          "title": "里程碑：第一周数据总结",
+          "url": "https://x.com/official/status/6",
+          "type": "milestone"
+        }
+      ]
+    },
+    "7": {
+      "date": "2024-09-07",
+      "followers": 40,
+      "posts": [
+        {
+          "title": "社区建设：如何打造活跃的用户社群",
+          "url": "https://x.com/official/status/7",
+          "type": "community"
+        }
+      ]
+    },
+    "8": {
+      "date": "2024-09-08",
+      "followers": 45,
+      "posts": [
+        {
+          "title": "合作伙伴：与行业领袖的深度对话",
+          "url": "https://x.com/official/status/8",
+          "type": "partnership"
+        }
+      ]
+    },
+    "9": {
+      "date": "2024-09-09",
+      "followers": 50,
+      "posts": [
+        {
+          "title": "未来规划：下一阶段的发展方向",
+          "url": "https://x.com/official/status/9",
+          "type": "roadmap"
+        }
+      ]
+    },
+    "10": {
+      "date": "2024-09-10",
+      "followers": 52,
+      "posts": [
+        {
+          "title": "感谢有你：致所有支持者的一封信",
+          "url": "https://x.com/official/status/10",
+          "type": "gratitude"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "lastUpdated": "2024-09-15T20:00:00+08:00",
+  "updateSchedule": "每晚8点(UTC+8)更新数据",
+  "totalStats": {
+    "followers": 38,
+    "engagement": "9.2%",
+    "totalPosts": 10
+  },
+  "dailyData": {
+    "1": {
+      "date": "2024-09-01",
+      "followers": 0,
+      "posts": [
+        {
+          "title": "产品思维：从0到1的用户增长策略",
+          "url": "https://x.com/dylan/status/1",
+          "type": "strategy"
+        }
+      ]
+    },
+    "2": {
+      "date": "2024-09-02",
+      "followers": 5,
+      "posts": [
+        {
+          "title": "用户画像分析：如何找到你的核心用户",
+          "url": "https://x.com/dylan/status/2",
+          "type": "analysis"
+        }
+      ]
+    },
+    "3": {
+      "date": "2024-09-03",
+      "followers": 12,
+      "posts": [
+        {
+          "title": "产品迭代：数据驱动的功能优化",
+          "url": "https://x.com/dylan/status/3",
+          "type": "product"
+        }
+      ]
+    },
+    "4": {
+      "date": "2024-09-04",
+      "followers": 18,
+      "posts": [
+        {
+          "title": "市场洞察：竞品分析的正确姿势",
+          "url": "https://x.com/dylan/status/4",
+          "type": "market"
+        }
+      ]
+    },
+    "5": {
+      "date": "2024-09-05",
+      "followers": 25,
+      "posts": [
+        {
+          "title": "增长黑客：病毒式传播的设计原理",
+          "url": "https://x.com/dylan/status/5",
+          "type": "growth"
+        }
+      ]
+    },
+    "6": {
+      "date": "2024-09-06",
+      "followers": 30,
+      "posts": [
+        {
+          "title": "用户体验：从痛点到爽点的转化",
+          "url": "https://x.com/dylan/status/6",
+          "type": "ux"
+        }
+      ]
+    },
+    "7": {
+      "date": "2024-09-07",
+      "followers": 35,
+      "posts": [
+        {
+          "title": "产品定位：如何在红海中找到蓝海",
+          "url": "https://x.com/dylan/status/7",
+          "type": "positioning"
+        }
+      ]
+    },
+    "8": {
+      "date": "2024-09-08",
+      "followers": 38,
+      "posts": [
+        {
+          "title": "商业模式：从免费到付费的转化路径",
+          "url": "https://x.com/dylan/status/8",
+          "type": "business"
+        }
+      ]
+    }
+  }
+}
