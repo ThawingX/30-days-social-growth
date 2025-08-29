@@ -11,7 +11,7 @@ interface Post {
 
 interface DayData {
   date: string
-  followers: number
+  followerGrowth: number
   posts: Post[]
 }
 
@@ -19,8 +19,7 @@ interface DailyDataType {
   lastUpdated: string
   updateSchedule: string
   totalStats: {
-    followers: number
-    engagement: string
+    totalFollowerGrowth: number
     totalPosts: number
   }
   dailyData: { [key: string]: DayData }
@@ -53,7 +52,7 @@ const Calendar2024September = ({ dailyData, onDayClick, activeTab }: { dailyData
     const isToday = isCurrentMonth && day === today
     const isPast = isCurrentMonth && day < today
     const dayData = dailyData && dailyData[day.toString()]
-    const hasData = dayData && dayData.followers !== undefined
+    const hasData = dayData && dayData.followerGrowth !== undefined
     
     days.push(
       <div
@@ -77,7 +76,7 @@ const Calendar2024September = ({ dailyData, onDayClick, activeTab }: { dailyData
           {hasData && (
             <div className="text-xs space-y-1">
               <div className="font-semibold text-accent">
-                {dayData.followers} 粉丝
+                +{dayData.followerGrowth} 粉丝
               </div>
               {dayData.posts.length > 0 && (
                 <div className="space-y-1">
@@ -121,6 +120,19 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [activeTab, setActiveTab] = useState<'dylan' | 'yanxu' | 'official'>('dylan')
 
+  // 实时计算总粉丝增长和发布内容数
+  const calculateTotalStats = (dailyData: { [key: string]: DayData }) => {
+    let totalFollowerGrowth = 0
+    let totalPosts = 0
+    
+    Object.values(dailyData).forEach(dayData => {
+      totalFollowerGrowth += dayData.followerGrowth
+      totalPosts += dayData.posts.length
+    })
+    
+    return { totalFollowerGrowth, totalPosts }
+  }
+
   useEffect(() => {
     // Load data based on active tab
     const dataFiles = {
@@ -148,7 +160,7 @@ export default function Home() {
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
-      timeZone: 'America/Los_Angeles'
+      timeZone: 'Asia/Shanghai'
     })
   }
 
@@ -168,8 +180,7 @@ export default function Home() {
       socialLinks: '社交媒体',
       productLinks: '产品链接',
       currentProgress: '当前进度',
-      followers: '粉丝数',
-      engagement: '互动率',
+      followerGrowth: '粉丝增长',
       posts: '发布内容'
     },
     en: {
@@ -187,13 +198,17 @@ export default function Home() {
       socialLinks: 'Social Media',
       productLinks: 'Product Links',
       currentProgress: 'Current Progress',
-      followers: 'Followers',
-      engagement: 'Engagement',
+      followerGrowth: 'Follower Growth',
       posts: 'Posts'
     }
   }
 
   const t = content[language]
+  
+  // 获取实时计算的统计数据
+  const realTimeStats = dailyDataState?.dailyData 
+    ? calculateTotalStats(dailyDataState.dailyData) 
+    : { totalFollowerGrowth: 0, totalPosts: 0 }
 
   return (
     <div className="min-h-screen bg-white">
@@ -239,7 +254,9 @@ export default function Home() {
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center space-x-3">
                 <Clock className="w-5 h-5 text-accent" />
-                <span className="font-semibold">{dailyDataState.updateSchedule}</span>
+                <span className="font-semibold">
+                  {language === 'zh' ? '每天晚上8点(UTC+8)更新数据' : 'Data updated daily at 8 PM (UTC+8)'}
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <RefreshCw className="w-5 h-5 text-accent" />
@@ -253,27 +270,29 @@ export default function Home() {
         )}
 
         {/* Progress Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="card-brutal p-6 text-center">
-            <Users className="w-8 h-8 mx-auto mb-4 text-accent" />
-            <h3 className="text-2xl font-bold mb-2">
-              {dailyDataState?.totalStats.followers || 0}
-            </h3>
-            <p className="font-semibold uppercase tracking-wide">{t.followers}</p>
-          </div>
-          <div className="card-brutal p-6 text-center">
-            <Target className="w-8 h-8 mx-auto mb-4 text-accent" />
-            <h3 className="text-2xl font-bold mb-2">
-              {dailyDataState?.totalStats.engagement || '0%'}
-            </h3>
-            <p className="font-semibold uppercase tracking-wide">{t.engagement}</p>
-          </div>
-          <div className="card-brutal p-6 text-center">
-            <Calendar className="w-8 h-8 mx-auto mb-4 text-accent" />
-            <h3 className="text-2xl font-bold mb-2">
-              {dailyDataState?.totalStats.totalPosts || 0}
-            </h3>
-            <p className="font-semibold uppercase tracking-wide">{t.posts}</p>
+        <section className="grid grid-cols-1 gap-6">
+          <div className="card-brutal p-6">
+            <div className="text-center mb-4">
+              <p className="text-sm text-gray-600 font-medium">
+                {language === 'zh' ? '所有账号合计数据 (Dylan + Yanxu + 官号)' : 'Combined Data from All Accounts (Dylan + Yanxu + Official)'}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-6 text-center">
+              <div>
+                <Users className="w-8 h-8 mx-auto mb-4 text-accent" />
+                <h3 className="text-2xl font-bold mb-2">
+                  {realTimeStats.totalFollowerGrowth}
+                </h3>
+                <p className="font-semibold uppercase tracking-wide">{t.followerGrowth}</p>
+              </div>
+              <div>
+                <Calendar className="w-8 h-8 mx-auto mb-4 text-accent" />
+                <h3 className="text-2xl font-bold mb-2">
+                  {realTimeStats.totalPosts}
+                </h3>
+                <p className="font-semibold uppercase tracking-wide">{t.posts}</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -344,22 +363,24 @@ export default function Home() {
               <div className="bg-blue-50 border-2 border-black p-6 card-brutal">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-accent">Dylan - 产品视角</h3>
-                    <p className="text-gray-700">专注于产品策略、用户增长和市场洞察的内容分享</p>
+                    <h3 className="text-xl font-bold mb-2 text-accent">
+                      {language === 'zh' ? 'Dylan - 产品视角' : 'Dylan - Product Perspective'}
+                    </h3>
+                    <p className="text-gray-700">
+                      {language === 'zh' 
+                        ? '专注于产品策略、用户增长和市场洞察的内容分享' 
+                        : 'Focused on product strategy, user growth, and market insights'}
+                    </p>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-accent">{dailyDataState?.totalStats.followers || 0}</div>
-                    <div className="text-sm text-gray-600">粉丝数</div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="bg-white p-3 border border-black">
-                    <div className="text-lg font-bold">{dailyDataState?.totalStats.engagement || '0%'}</div>
-                    <div className="text-xs text-gray-600">互动率</div>
-                  </div>
-                  <div className="bg-white p-3 border border-black">
-                    <div className="text-lg font-bold">{dailyDataState?.totalStats.totalPosts || 0}</div>
-                    <div className="text-xs text-gray-600">发布内容</div>
+                  <div className="text-right flex space-x-8">
+                    <div>
+                      <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
+                      <div className="text-sm text-gray-600">粉丝增长</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-accent">{realTimeStats.totalPosts}</div>
+                      <div className="text-sm text-gray-600">发布内容</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -371,19 +392,15 @@ export default function Home() {
                     <h3 className="text-xl font-bold mb-2 text-accent">Yanxu - 技术视角</h3>
                     <p className="text-gray-700">分享技术实现、开发经验和工程思维</p>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-accent">{dailyDataState?.totalStats.followers || 0}</div>
-                    <div className="text-sm text-gray-600">粉丝数</div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="bg-white p-3 border border-black">
-                    <div className="text-lg font-bold">{dailyDataState?.totalStats.engagement || '0%'}</div>
-                    <div className="text-xs text-gray-600">互动率</div>
-                  </div>
-                  <div className="bg-white p-3 border border-black">
-                    <div className="text-lg font-bold">{dailyDataState?.totalStats.totalPosts || 0}</div>
-                    <div className="text-xs text-gray-600">发布内容</div>
+                  <div className="text-right flex space-x-8">
+                    <div>
+                      <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
+                      <div className="text-sm text-gray-600">粉丝增长</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-accent">{realTimeStats.totalPosts}</div>
+                      <div className="text-sm text-gray-600">发布内容</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -395,19 +412,15 @@ export default function Home() {
                     <h3 className="text-xl font-bold mb-2 text-accent">官号</h3>
                     <p className="text-gray-700">官方账号的统一发声和品牌建设</p>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-accent">{dailyDataState?.totalStats.followers || 0}</div>
-                    <div className="text-sm text-gray-600">粉丝数</div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="bg-white p-3 border border-black">
-                    <div className="text-lg font-bold">{dailyDataState?.totalStats.engagement || '0%'}</div>
-                    <div className="text-xs text-gray-600">互动率</div>
-                  </div>
-                  <div className="bg-white p-3 border border-black">
-                    <div className="text-lg font-bold">{dailyDataState?.totalStats.totalPosts || 0}</div>
-                    <div className="text-xs text-gray-600">发布内容</div>
+                  <div className="text-right flex space-x-8">
+                    <div>
+                      <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
+                      <div className="text-sm text-gray-600">粉丝增长</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-accent">{realTimeStats.totalPosts}</div>
+                      <div className="text-sm text-gray-600">发布内容</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -429,24 +442,24 @@ export default function Home() {
               {t.socialLinks}
             </h2>
             <div className="space-y-4">
-              <a href="https://x.com/your_username" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://x.com/xDylanLong" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <Twitter className="w-5 h-5" />
                   <span>X Platform</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="https://instagram.com/your_username" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <Instagram className="w-5 h-5" />
-                  <span>Instagram</span>
-                </div>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-              <a href="https://linkedin.com/in/your_profile" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://www.linkedin.com/in/x-dylan-long/" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <Linkedin className="w-5 h-5" />
                   <span>LinkedIn</span>
+                </div>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+              <a href="https://www.xiaohongshu.com/user/profile/5df3742d000000000100212a?xsec_token=ABB-hUzSWHi3qP2vaQuPCG1o0NwHNZLahv-gntfdcqxO8=&xsec_source=pc_note" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Users className="w-5 h-5" />
+                  <span>小红书</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
@@ -459,7 +472,7 @@ export default function Home() {
               {t.productLinks}
             </h2>
             <div className="space-y-4">
-              <a href="#" className="btn-brutal-accent w-full flex items-center justify-between">
+              <a href="https://x-pilot-landing.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn-brutal-accent w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <span>X-Pilot</span>
                 </div>
@@ -502,9 +515,9 @@ export default function Home() {
             <div className="space-y-4">
               <div>
                 <p className="font-semibold mb-2">
-                  {language === 'zh' ? '粉丝数:' : 'Followers:'} 
+                  {language === 'zh' ? '粉丝增长:' : 'Follower Growth:'} 
                   <span className="text-accent ml-2">
-                    {dailyDataState.dailyData[selectedDay.toString()].followers}
+                    +{dailyDataState.dailyData[selectedDay.toString()].followerGrowth}
                   </span>
                 </p>
               </div>
