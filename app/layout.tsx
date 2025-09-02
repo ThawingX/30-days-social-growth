@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: '30天社媒增长实验 | 30-Day Social Growth Experiment',
-  description: '一个公开的30天社交媒体增长实验，展示如何从0起号到500粉丝的完整过程 | A public 30-day social media growth experiment showing the complete process from 0 to 500 followers',
+  description: '一个公开的30天社交媒体增长实验，展示如何从0起号到2000粉丝的完整过程 | A public 30-day social media growth experiment showing the complete process from 0 to 2000 followers',
 }
 
 export default function RootLayout({
