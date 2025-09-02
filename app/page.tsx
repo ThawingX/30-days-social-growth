@@ -25,7 +25,7 @@ interface DailyDataType {
   dailyData: { [key: string]: DayData }
 }
 
-const Calendar2024September = ({ dailyData, onDayClick, activeTab }: { dailyData: { [key: string]: DayData }, onDayClick: (day: number) => void, activeTab: string }) => {
+const Calendar2024September = ({ dailyData, onDayClick, activeTab, language }: { dailyData: { [key: string]: DayData }, onDayClick: (day: number) => void, activeTab: string, language: 'zh' | 'en' }) => {
   const daysInMonth = 30
   const firstDayOfWeek = 0 // September 1, 2024 is a Sunday
   const today = new Date().getDate()
@@ -87,7 +87,7 @@ const Calendar2024September = ({ dailyData, onDayClick, activeTab }: { dailyData
                   ))}
                   {dayData.posts.length > 2 && (
                     <div className="text-xs text-gray-600">
-                      +{dayData.posts.length - 2} 更多
+                      +{dayData.posts.length - 2} {language === 'zh' ? '更多' : 'more'}
                     </div>
                   )}
                 </div>
@@ -102,7 +102,7 @@ const Calendar2024September = ({ dailyData, onDayClick, activeTab }: { dailyData
   return (
     <div className="w-full max-w-6xl mx-auto">
       <div className="grid grid-cols-7 gap-3 md:gap-4">
-        {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
+        {(language === 'zh' ? ['日', '一', '二', '三', '四', '五', '六'] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']).map((day) => (
           <div key={day} className="h-12 bg-black text-white flex items-center justify-center font-bold text-base md:text-lg">
             {day}
           </div>
@@ -379,11 +379,11 @@ export default function Home() {
                   <div className="text-right flex space-x-8">
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
-                      <div className="text-sm text-gray-600">粉丝增长</div>
+                      <div className="text-sm text-gray-600">{t.followerGrowth}</div>
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalPosts}</div>
-                      <div className="text-sm text-gray-600">发布内容</div>
+                      <div className="text-sm text-gray-600">{t.posts}</div>
                     </div>
                   </div>
                 </div>
@@ -393,17 +393,23 @@ export default function Home() {
               <div className="bg-green-50 border-2 border-black p-6 card-brutal">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-accent">Yanxu - 技术视角</h3>
-                    <p className="text-gray-700">分享技术实现、开发经验和工程思维</p>
+                    <h3 className="text-xl font-bold mb-2 text-accent">
+                      {language === 'zh' ? 'Yanxu - 技术视角' : 'Yanxu - Technical Perspective'}
+                    </h3>
+                    <p className="text-gray-700">
+                      {language === 'zh' 
+                        ? '分享技术实现、开发经验和工程思维' 
+                        : 'Sharing technical implementation, development experience and engineering mindset'}
+                    </p>
                   </div>
                   <div className="text-right flex space-x-8">
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
-                      <div className="text-sm text-gray-600">粉丝增长</div>
+                      <div className="text-sm text-gray-600">{t.followerGrowth}</div>
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalPosts}</div>
-                      <div className="text-sm text-gray-600">发布内容</div>
+                      <div className="text-sm text-gray-600">{t.posts}</div>
                     </div>
                   </div>
                 </div>
@@ -413,17 +419,23 @@ export default function Home() {
               <div className="bg-purple-50 border-2 border-black p-6 card-brutal">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-accent">官号</h3>
-                    <p className="text-gray-700">官方账号的统一发声和品牌建设</p>
+                    <h3 className="text-xl font-bold mb-2 text-accent">
+                      {language === 'zh' ? '官号' : 'Official'}
+                    </h3>
+                    <p className="text-gray-700">
+                      {language === 'zh' 
+                        ? '官方账号的统一发声和品牌建设' 
+                        : 'Official account for unified voice and brand building'}
+                    </p>
                   </div>
                   <div className="text-right flex space-x-8">
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
-                      <div className="text-sm text-gray-600">粉丝增长</div>
+                      <div className="text-sm text-gray-600">{t.followerGrowth}</div>
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalPosts}</div>
-                      <div className="text-sm text-gray-600">发布内容</div>
+                      <div className="text-sm text-gray-600">{t.posts}</div>
                     </div>
                   </div>
                 </div>
@@ -435,6 +447,7 @@ export default function Home() {
             dailyData={dailyDataState?.dailyData || {}}
             onDayClick={handleDayClick}
             activeTab={activeTab}
+            language={language}
           />
         </section>
 

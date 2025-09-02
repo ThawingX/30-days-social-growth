@@ -1,9 +1,15 @@
-{
-  "lastUpdated": "2024-12-19T20:00:00+08:00",
-  "updateSchedule": "每晚8点(UTC+8)更新数据",
-  "totalStats": {
-    "totalFollowerGrowth": 0,
-    "totalPosts": 0
-  },
-  "dailyData": {}
+{ 
+  "dailyData": {
+    "1": {
+      "date": "2024-12-19",
+      "followerGrowth": 5,
+      "posts": [
+        {
+          "title": "30天社交媒体增长实验 - Demo",
+          "url": "https://x.com/demo/status/1",
+          "type": "demo"
+        }
+      ]
+    }
+  }
 }
