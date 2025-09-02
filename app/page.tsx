@@ -167,8 +167,8 @@ export default function Home() {
   const content = {
     zh: {
       title: '30天社媒增长实验',
-      subtitle: '从0到500粉丝的公开挑战',
-      description: '这是一个完全公开透明的30天社交媒体增长实验。我们将展示如何在30天内从0起号达到500粉丝，证明冷启动不是运气，而是有方法可循。',
+      subtitle: '从0到2000粉丝的公开挑战',
+      description: '这是一个完全公开透明的30天社交媒体增长实验。我们将展示如何在30天内从0起号达到2000粉丝，证明冷启动不是运气，而是有方法可循。',
       experiment: {
         phase1: 'Day 1-10: 探索期',
         phase1Desc: '尝试不同类型内容，寻找最佳方向',
@@ -185,8 +185,8 @@ export default function Home() {
     },
     en: {
       title: '30-Day Social Growth Experiment',
-      subtitle: 'Public Challenge: 0 to 500 Followers',
-      description: 'This is a completely open and transparent 30-day social media growth experiment. We will demonstrate how to grow from 0 to 500 followers in 30 days, proving that cold start is not about luck, but about methodology.',
+      subtitle: 'Public Challenge: 0 to 2000 Followers',
+      description: 'This is a completely open and transparent 30-day social media growth experiment. We will demonstrate how to grow from 0 to 2000 followers in 30 days, proving that cold start is not about luck, but about methodology.',
       experiment: {
         phase1: 'Day 1-10: Exploration Phase',
         phase1Desc: 'Try different content types to find the best direction',
