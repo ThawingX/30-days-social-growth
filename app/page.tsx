@@ -491,7 +491,10 @@ export default function Home() {
               <a href="https://x-pilot-landing.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn-brutal-accent w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <img src="/x-pilot-logo.jpg" alt="X-Pilot" className="w-5 h-5 object-contain" />
-                  <span>X-Pilot</span>
+                  <div className="flex flex-col">
+                    <span>X-Pilot</span>
+                    <span className="text-xs opacity-80">自动化社交媒体增长 · 冷启动助手</span>
+                  </div>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
