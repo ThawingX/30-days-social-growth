@@ -439,11 +439,11 @@ export default function Home() {
         </section>
 
         {/* Links Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Social Media Links */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Dylan Social Media */}
           <div className="space-y-6">
             <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight border-b-2 border-black pb-2">
-              {t.socialLinks}
+              Dylan 社交媒体
             </h2>
             <div className="space-y-4">
               <a href="https://x.com/xDylanLong" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
@@ -470,28 +470,35 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Product Links */}
+          {/* Yanxu Social Media */}
           <div className="space-y-6">
             <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight border-b-2 border-black pb-2">
-              {t.productLinks}
+              Yanxu 社交媒体
+            </h2>
+            <div className="space-y-4">
+              <div className="btn-brutal w-full flex items-center justify-center opacity-50">
+                <span className="text-gray-500">即将添加...</span>
+              </div>
+            </div>
+          </div>
+
+          {/* SnapSnap */}
+          <div className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight border-b-2 border-black pb-2">
+              SnapSnap
             </h2>
             <div className="space-y-4">
               <a href="https://x-pilot-landing.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn-brutal-accent w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
+                  <img src="/x-pilot-logo.jpg" alt="X-Pilot" className="w-5 h-5 object-contain" />
                   <span>X-Pilot</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="#" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://discord.gg/CSkT2BdNKy" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Github className="w-5 h-5" />
-                  <span>GitHub</span>
-                </div>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-              <a href="#" className="btn-brutal w-full flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <span>Blog</span>
+                  <Users className="w-5 h-5" />
+                  <span>Discord 社群</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
