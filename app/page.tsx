@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Globe, Twitter, Instagram, Linkedin, Github, ExternalLink, Calendar, Target, TrendingUp, Users, Clock, RefreshCw, Zap } from 'lucide-react'
+import { Globe, Twitter, Instagram, Linkedin, Github, ExternalLink, Calendar, Target, TrendingUp, Users, Clock, RefreshCw, Zap, X } from 'lucide-react'
 
 interface Post {
   title: string
@@ -448,8 +448,8 @@ export default function Home() {
             <div className="space-y-4">
               <a href="https://x.com/xDylanLong" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Twitter className="w-5 h-5" />
-                  <span>X Platform</span>
+                  <X className="w-5 h-5" />
+                  <span>X</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
@@ -476,9 +476,27 @@ export default function Home() {
               Yanxu 社交媒体
             </h2>
             <div className="space-y-4">
-              <div className="btn-brutal w-full flex items-center justify-center opacity-50">
-                <span className="text-gray-500">即将添加...</span>
-              </div>
+              <a href="https://x.com/linyanxuZ" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <X className="w-5 h-5" />
+                  <span>X</span>
+                </div>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+              <a href="https://www.linkedin.com/in/linyanxu/" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Linkedin className="w-5 h-5" />
+                  <span>LinkedIn</span>
+                </div>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+              <a href="https://www.xiaohongshu.com/user/profile/5fc667280000000001008084?xsec_token=YBo1_aJtlsVA8I3bm88Wh-fsXnLfFUqONqoH6xefdnoF8%3D&xsec_source=app_share&xhsshare=CopyLink&appuid=5fc667280000000001008084&apptime=1756797016&share_id=a13512e8bfc4431e8705a9ae7164fad9&share_channel=copy_link" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Users className="w-5 h-5" />
+                  <span>小红书</span>
+                </div>
+                <ExternalLink className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
