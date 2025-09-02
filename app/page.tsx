@@ -153,8 +153,12 @@ export default function Home() {
   }
 
   const formatLastUpdated = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleString('zh-CN', {
+    // 获取昨天晚上8点的时间
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    yesterday.setHours(20, 0, 0, 0) // 设置为晚上8点
+    
+    return yesterday.toLocaleString('zh-CN', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
