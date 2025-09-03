@@ -25,13 +25,13 @@ interface DailyDataType {
   dailyData: { [key: string]: DayData }
 }
 
-const Calendar2024September = ({ dailyData, onDayClick, activeTab, language }: { dailyData: { [key: string]: DayData }, onDayClick: (day: number) => void, activeTab: string, language: 'zh' | 'en' }) => {
+const Calendar2025September = ({ dailyData, onDayClick, activeTab, language }: { dailyData: { [key: string]: DayData }, onDayClick: (day: number) => void, activeTab: string, language: 'zh' | 'en' }) => {
   const daysInMonth = 30
-  const firstDayOfWeek = 0 // September 1, 2024 is a Sunday
+  const firstDayOfWeek = 0 // September 1, 2025 is a Sunday
   const today = new Date().getDate()
   const currentMonth = new Date().getMonth()
   const currentYear = new Date().getFullYear()
-  const isCurrentMonth = currentMonth === 8 && currentYear === 2024 // September is month 8
+  const isCurrentMonth = currentMonth === 8 && currentYear === 2025 // September is month 8
   
   // 计算进度背景颜色
   const getProgressBackground = (day: number) => {
@@ -324,7 +324,7 @@ export default function Home() {
         {/* Calendar Section */}
         <section className="space-y-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center uppercase tracking-tight">
-            2024年9月 / September 2024
+            2025年9月 / September 2025
           </h2>
           
           {/* Tab Navigation */}
@@ -443,7 +443,7 @@ export default function Home() {
             )}
           </div>
           
-          <Calendar2024September 
+          <Calendar2025September 
             dailyData={dailyDataState?.dailyData || {}}
             onDayClick={handleDayClick}
             activeTab={activeTab}
