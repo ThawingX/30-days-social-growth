@@ -1,3 +1,25 @@
 {
-  "dailyData": {}
+  "dailyData": {
+    "3": {
+      "date": "2025-09-03",
+      "followerGrowth": 6,
+      "posts": [
+         {
+          "title": "Experiment 1 start- linyanxu",
+          "url": "https://x.com/linyanxuZ/status/1963161913463820435",
+          "type": "info"
+        },
+         {
+          "title": "Strategies for Vibe Coding in Production - linyanxu",
+          "url": "https://x.com/linyanxuZ/status/1963523848428568579",
+          "type": "tips"
+        },
+         {
+          "title": "Experiment 1 summary - linyanxu",
+          "url": "https://x.com/linyanxuZ/status/1963620944033030364",
+          "type": "summary"
+        }
+      ]
+    }
+  }
 }
