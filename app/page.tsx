@@ -224,7 +224,8 @@ export default function Home() {
       productLinks: '产品链接',
       currentProgress: '当前进度',
       followerGrowth: '粉丝增长',
-      posts: '发布内容'
+      posts: '发布内容',
+      xPilotDesc: '自动化社交媒体增长 · 冷启动助手'
     },
     en: {
       title: '30-Day Social Growth Experiment',
@@ -242,7 +243,8 @@ export default function Home() {
       productLinks: 'Product Links',
       currentProgress: 'Current Progress',
       followerGrowth: 'Follower Growth',
-      posts: 'Posts'
+      posts: 'Posts',
+      xPilotDesc: 'Automated Social Media Growth · Cold Start Assistant'
     }
   }
 
@@ -566,7 +568,7 @@ export default function Home() {
                   <img src="/x-pilot-logo.jpg" alt="X-Pilot" className="object-contain w-5 h-5" />
                   <div className="flex flex-col">
                     <span>X-Pilot</span>
-                    <span className="text-xs opacity-80">自动化社交媒体增长 · 冷启动助手</span>
+                    <span className="text-xs opacity-80">{t.xPilotDesc}</span>
                   </div>
                 </div>
                 <ExternalLink className="w-4 h-4" />
