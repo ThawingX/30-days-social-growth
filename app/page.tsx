@@ -76,7 +76,7 @@ const Calendar2025September = ({ dailyData, onDayClick, activeTab, language }: {
           {hasData && (
             <div className="space-y-1 text-xs">
               <div className="font-semibold text-accent">
-                +{dayData.followerGrowth} 粉丝
+                +{dayData.followerGrowth} {language === 'zh' ? '粉丝' : 'followers'}
               </div>
               {dayData.posts.length > 0 && (
                 <div className="space-y-1">
@@ -225,7 +225,21 @@ export default function Home() {
       currentProgress: '当前进度',
       followerGrowth: '粉丝增长',
       posts: '发布内容',
-      xPilotDesc: '自动化社交媒体增长 · 冷启动助手'
+      xPilotDesc: '自动化社交媒体增长 · 冷启动助手',
+      dylanTab: 'Dylan (产品视角)',
+      yanxuTab: 'Yanxu (技术视角)',
+      snapSnapTab: 'SnapSnap',
+      dylanTitle: 'Dylan - 产品视角',
+      yanxuTitle: 'Yanxu - 技术视角',
+      snapSnapTitle: 'SnapSnap',
+      followers: '粉丝',
+      snapSnapDesc: 'SnapSnap官方账号的统一发声和品牌建设',
+      dylanSocialMedia: 'Dylan 社交媒体',
+      yanxuSocialMedia: 'Yanxu 社交媒体',
+      discordCommunity: 'Discord 社群',
+      experimentPhases: '实验阶段',
+      calendarTitle: '2025年9月',
+      xiaohongshu: '小红书'
     },
     en: {
       title: '30-Day Social Growth Experiment',
@@ -244,7 +258,21 @@ export default function Home() {
       currentProgress: 'Current Progress',
       followerGrowth: 'Follower Growth',
       posts: 'Posts',
-      xPilotDesc: 'Automated Social Media Growth · Cold Start Assistant'
+      xPilotDesc: 'Automated Social Media Growth · Cold Start Assistant',
+      dylanTab: 'Dylan (Product)',
+      yanxuTab: 'Yanxu (Technical)',
+      snapSnapTab: 'SnapSnap',
+      dylanTitle: 'Dylan - Product Perspective',
+      yanxuTitle: 'Yanxu - Technical Perspective',
+      snapSnapTitle: 'SnapSnap',
+      followers: 'followers',
+      snapSnapDesc: 'SnapSnap official account for unified voice and brand building',
+      dylanSocialMedia: 'Dylan Social Media',
+      yanxuSocialMedia: 'Yanxu Social Media',
+      discordCommunity: 'Discord Community',
+      experimentPhases: 'Experiment Phases',
+      calendarTitle: 'September 2025',
+      xiaohongshu: 'Xiaohongshu'
     }
   }
 
@@ -347,7 +375,7 @@ export default function Home() {
         {/* Experiment Phases */}
         <section className="space-y-8">
           <h2 className="text-3xl font-bold tracking-tight text-center uppercase md:text-4xl">
-            实验阶段 / Experiment Phases
+            {t.experimentPhases}
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="p-6 text-white card-brutal-accent">
@@ -368,7 +396,7 @@ export default function Home() {
         {/* Calendar Section */}
         <section className="space-y-8">
           <h2 className="text-3xl font-bold tracking-tight text-center uppercase md:text-4xl">
-            2025年9月 / September 2025
+            {t.calendarTitle}
           </h2>
           
           {/* Tab Navigation */}
@@ -381,7 +409,7 @@ export default function Home() {
                   : 'bg-white hover:bg-yellow-100 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none'
               }`}
             >
-              Dylan (产品视角)
+              {t.dylanTab}
             </button>
             <button
               onClick={() => setActiveTab('yanxu')}
@@ -391,7 +419,7 @@ export default function Home() {
                   : 'bg-white hover:bg-yellow-100 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none'
               }`}
             >
-              Yanxu (技术视角)
+              {t.yanxuTab}
             </button>
             <button
               onClick={() => setActiveTab('official')}
@@ -401,7 +429,7 @@ export default function Home() {
                   : 'bg-white hover:bg-yellow-100 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none'
               }`}
             >
-              官号
+              {t.snapSnapTab}
             </button>
           </div>
           
@@ -412,7 +440,7 @@ export default function Home() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="mb-2 text-xl font-bold text-accent">
-                      {language === 'zh' ? 'Dylan - 产品视角' : 'Dylan - Product Perspective'}
+                      {t.dylanTitle}
                     </h3>
                     <p className="text-gray-700">
                       {language === 'zh' 
@@ -438,7 +466,7 @@ export default function Home() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="mb-2 text-xl font-bold text-accent">
-                      {language === 'zh' ? 'Yanxu - 技术视角' : 'Yanxu - Technical Perspective'}
+                      {t.yanxuTitle}
                     </h3>
                     <p className="text-gray-700">
                       {language === 'zh' 
@@ -464,12 +492,10 @@ export default function Home() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="mb-2 text-xl font-bold text-accent">
-                      {language === 'zh' ? '官号' : 'Official'}
+                      {t.snapSnapTitle}
                     </h3>
                     <p className="text-gray-700">
-                      {language === 'zh' 
-                        ? '官方账号的统一发声和品牌建设' 
-                        : 'Official account for unified voice and brand building'}
+                      {t.snapSnapDesc}
                     </p>
                   </div>
                   <div className="flex space-x-8 text-right">
@@ -500,7 +526,7 @@ export default function Home() {
           {/* Dylan Social Media */}
           <div className="space-y-6">
             <h2 className="pb-2 text-2xl font-bold tracking-tight uppercase border-b-2 border-black md:text-3xl">
-              Dylan 社交媒体
+              {t.dylanSocialMedia}
             </h2>
             <div className="space-y-4">
               <a href="https://x.com/xDylanLong" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
@@ -520,7 +546,7 @@ export default function Home() {
               <a href="https://www.xiaohongshu.com/user/profile/5df3742d000000000100212a?xsec_token=ABB-hUzSWHi3qP2vaQuPCG1o0NwHNZLahv-gntfdcqxO8=&xsec_source=pc_note" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5" />
-                  <span>小红书</span>
+                  <span>{t.xiaohongshu}</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
@@ -530,7 +556,7 @@ export default function Home() {
           {/* Yanxu Social Media */}
           <div className="space-y-6">
             <h2 className="pb-2 text-2xl font-bold tracking-tight uppercase border-b-2 border-black md:text-3xl">
-              Yanxu 社交媒体
+              {t.yanxuSocialMedia}
             </h2>
             <div className="space-y-4">
               <a href="https://x.com/linyanxuZ" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
@@ -550,7 +576,7 @@ export default function Home() {
               <a href="https://www.xiaohongshu.com/user/profile/5fc667280000000001008084?xsec_token=YBo1_aJtlsVA8I3bm88Wh-fsXnLfFUqONqoH6xefdnoF8%3D&xsec_source=app_share&xhsshare=CopyLink&appuid=5fc667280000000001008084&apptime=1756797016&share_id=a13512e8bfc4431e8705a9ae7164fad9&share_channel=copy_link" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5" />
-                  <span>小红书</span>
+                  <span>{t.xiaohongshu}</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
@@ -576,7 +602,7 @@ export default function Home() {
               <a href="https://discord.gg/CSkT2BdNKy" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5" />
-                  <span>Discord 社群</span>
+                  <span>{t.discordCommunity}</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
