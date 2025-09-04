@@ -1,5 +1,30 @@
 { 
   "dailyData": {
-
+    "3": {
+      "date": "2025-09-03",
+      "followerGrowth": 41,
+      "posts": [
+        {
+          "title": "Experiment Start - Dylan",
+          "url": "https://x.com/xDylanLong/status/1962916122585677989",
+          "type": "info"
+        },
+         {
+          "title": "Experiment 1 start- Dylan",
+          "url": "https://x.com/xDylanLong/status/1963149773806227658",
+          "type": "info"
+        },
+         {
+          "title": "How to find your Niche - Dylan",
+          "url": "https://x.com/xDylanLong/status/1963164522455146570",
+          "type": "tips"
+        },
+         {
+          "title": "Experiment 1 summary - Dylan",
+          "url": "https://x.com/xDylanLong/status/1963506695105380557",
+          "type": "summary"
+        }
+      ]
+    }
   }
 }
