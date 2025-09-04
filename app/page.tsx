@@ -71,17 +71,17 @@ const Calendar2025September = ({ dailyData, onDayClick, activeTab, language }: {
           background: getProgressBackground(day) || undefined
         }}
       >
-        <div className="h-full flex flex-col justify-between">
-          <div className="font-bold text-lg">{day}</div>
+        <div className="flex flex-col justify-between h-full">
+          <div className="text-lg font-bold">{day}</div>
           {hasData && (
-            <div className="text-xs space-y-1">
+            <div className="space-y-1 text-xs">
               <div className="font-semibold text-accent">
                 +{dayData.followerGrowth} 粉丝
               </div>
               {dayData.posts.length > 0 && (
                 <div className="space-y-1">
                   {dayData.posts.slice(0, 2).map((post, idx) => (
-                    <div key={idx} className="text-xs truncate font-medium">
+                    <div key={idx} className="text-xs font-medium truncate">
                       {post.title}
                     </div>
                   ))}
@@ -100,10 +100,10 @@ const Calendar2025September = ({ dailyData, onDayClick, activeTab, language }: {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
+    <div className="mx-auto w-full max-w-6xl">
       <div className="grid grid-cols-7 gap-3 md:gap-4">
         {(language === 'zh' ? ['日', '一', '二', '三', '四', '五', '六'] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']).map((day) => (
-          <div key={day} className="h-12 bg-black text-white flex items-center justify-center font-bold text-base md:text-lg">
+          <div key={day} className="flex justify-center items-center h-12 text-base font-bold text-white bg-black md:text-lg">
             {day}
           </div>
         ))}
@@ -116,9 +116,10 @@ const Calendar2025September = ({ dailyData, onDayClick, activeTab, language }: {
 export default function Home() {
   const [language, setLanguage] = useState<'zh' | 'en'>('zh')
   const [dailyDataState, setDailyDataState] = useState<DailyDataType | null>(null)
-  const [selectedDay, setSelectedDay] = useState<number | null>(null)
+  const [selectedDay, setSelectedDay] = useState<number>(1)
   const [showModal, setShowModal] = useState(false)
   const [activeTab, setActiveTab] = useState<'dylan' | 'yanxu' | 'official'>('dylan')
+  const [allAccountsData, setAllAccountsData] = useState<{[key: string]: DailyDataType}>({})
 
   // 实时计算总粉丝增长和发布内容数
   const calculateTotalStats = (dailyData: { [key: string]: DayData }) => {
@@ -132,6 +133,44 @@ export default function Home() {
     
     return { totalFollowerGrowth, totalPosts }
   }
+
+  // 计算所有账号的总数据
+  const calculateAllAccountsStats = () => {
+    let totalFollowerGrowth = 0
+    let totalPosts = 0
+    
+    Object.values(allAccountsData).forEach(accountData => {
+      if (accountData?.dailyData) {
+        const accountStats = calculateTotalStats(accountData.dailyData)
+        totalFollowerGrowth += accountStats.totalFollowerGrowth
+        totalPosts += accountStats.totalPosts
+      }
+    })
+    
+    return { totalFollowerGrowth, totalPosts }
+  }
+
+  useEffect(() => {
+    // Load data for all accounts
+    const dataFiles = {
+      dylan: '/data/dylan-data.json',
+      yanxu: '/data/yanxu-data.json',
+      official: '/data/official-data.json'
+    }
+    
+    // Load all accounts data for total calculation
+    Promise.all([
+      fetch(dataFiles.dylan).then(res => res.json()),
+      fetch(dataFiles.yanxu).then(res => res.json()),
+      fetch(dataFiles.official).then(res => res.json())
+    ]).then(([dylanData, yanxuData, officialData]) => {
+      setAllAccountsData({
+        dylan: dylanData,
+        yanxu: yanxuData,
+        official: officialData
+      })
+    }).catch(error => console.error('Error loading all accounts data:', error))
+  }, [])
 
   useEffect(() => {
     // Load data based on active tab
@@ -209,28 +248,31 @@ export default function Home() {
 
   const t = content[language]
   
-  // 获取实时计算的统计数据
+  // 获取实时计算的统计数据（当前选中账号）
   const realTimeStats = dailyDataState?.dailyData 
     ? calculateTotalStats(dailyDataState.dailyData) 
     : { totalFollowerGrowth: 0, totalPosts: 0 }
 
+  // 获取所有账号的总计数据
+  const allAccountsStats = calculateAllAccountsStats()
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b-4 border-black bg-white">
-        <div className="container mx-auto px-4 py-6">
+      <header className="bg-white border-b-4 border-black">
+        <div className="container px-4 py-6 mx-auto">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-accent border-2 border-black flex items-center justify-center">
+              <div className="flex justify-center items-center w-12 h-12 border-2 border-black bg-accent">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">
+              <h1 className="text-2xl font-bold tracking-tight uppercase md:text-3xl">
                 {t.title}
               </h1>
             </div>
             <button
               onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
-              className="btn-brutal flex items-center space-x-2"
+              className="flex items-center space-x-2 btn-brutal"
             >
               <Globe className="w-4 h-4" />
               <span>{language === 'zh' ? 'EN' : '中文'}</span>
@@ -239,14 +281,14 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-12">
+      <main className="container px-4 py-8 mx-auto space-y-12">
         {/* Hero Section */}
-        <section className="text-center space-y-6">
-          <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight">
+        <section className="space-y-6 text-center">
+          <h2 className="text-4xl font-bold tracking-tight uppercase md:text-6xl">
             {t.subtitle}
           </h2>
-          <div className="max-w-4xl mx-auto">
-            <p className="text-lg md:text-xl leading-relaxed">
+          <div className="mx-auto max-w-4xl">
+            <p className="text-lg leading-relaxed md:text-xl">
               {t.description}
             </p>
           </div>
@@ -254,8 +296,8 @@ export default function Home() {
 
         {/* Update Info */}
         {dailyDataState && (
-          <section className="bg-yellow-100 border-2 border-black p-4 card-brutal">
-            <div className="flex items-center justify-between flex-wrap gap-4">
+          <section className="p-4 bg-yellow-100 border-2 border-black card-brutal">
+            <div className="flex flex-wrap gap-4 justify-between items-center">
               <div className="flex items-center space-x-3">
                 <Clock className="w-5 h-5 text-accent" />
                 <span className="font-semibold">
@@ -275,26 +317,26 @@ export default function Home() {
 
         {/* Progress Cards */}
         <section className="grid grid-cols-1 gap-6">
-          <div className="card-brutal p-6">
-            <div className="text-center mb-4">
-              <p className="text-sm text-gray-600 font-medium">
+          <div className="p-6 card-brutal">
+            <div className="mb-4 text-center">
+              <p className="text-sm font-medium text-gray-600">
                 {language === 'zh' ? '所有账号合计数据 (Dylan + Yanxu + 官号)' : 'Combined Data from All Accounts (Dylan + Yanxu + Official)'}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6 text-center">
               <div>
-                <Users className="w-8 h-8 mx-auto mb-4 text-accent" />
-                <h3 className="text-2xl font-bold mb-2">
-                  {realTimeStats.totalFollowerGrowth}
+                <Users className="mx-auto mb-4 w-8 h-8 text-accent" />
+                <h3 className="mb-2 text-2xl font-bold">
+                  {allAccountsStats.totalFollowerGrowth}
                 </h3>
-                <p className="font-semibold uppercase tracking-wide">{t.followerGrowth}</p>
+                <p className="font-semibold tracking-wide uppercase">{t.followerGrowth}</p>
               </div>
               <div>
-                <Calendar className="w-8 h-8 mx-auto mb-4 text-accent" />
-                <h3 className="text-2xl font-bold mb-2">
-                  {realTimeStats.totalPosts}
+                <Calendar className="mx-auto mb-4 w-8 h-8 text-accent" />
+                <h3 className="mb-2 text-2xl font-bold">
+                  {allAccountsStats.totalPosts}
                 </h3>
-                <p className="font-semibold uppercase tracking-wide">{t.posts}</p>
+                <p className="font-semibold tracking-wide uppercase">{t.posts}</p>
               </div>
             </div>
           </div>
@@ -302,20 +344,20 @@ export default function Home() {
 
         {/* Experiment Phases */}
         <section className="space-y-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center uppercase tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight text-center uppercase md:text-4xl">
             实验阶段 / Experiment Phases
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="card-brutal-accent p-6 text-white">
-              <h3 className="text-xl font-bold mb-3 uppercase">{t.experiment.phase1}</h3>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="p-6 text-white card-brutal-accent">
+              <h3 className="mb-3 text-xl font-bold uppercase">{t.experiment.phase1}</h3>
               <p className="leading-relaxed">{t.experiment.phase1Desc}</p>
             </div>
-            <div className="card-brutal p-6">
-              <h3 className="text-xl font-bold mb-3 uppercase">{t.experiment.phase2}</h3>
+            <div className="p-6 card-brutal">
+              <h3 className="mb-3 text-xl font-bold uppercase">{t.experiment.phase2}</h3>
               <p className="leading-relaxed">{t.experiment.phase2Desc}</p>
             </div>
-            <div className="card-brutal p-6">
-              <h3 className="text-xl font-bold mb-3 uppercase">{t.experiment.phase3}</h3>
+            <div className="p-6 card-brutal">
+              <h3 className="mb-3 text-xl font-bold uppercase">{t.experiment.phase3}</h3>
               <p className="leading-relaxed">{t.experiment.phase3Desc}</p>
             </div>
           </div>
@@ -323,7 +365,7 @@ export default function Home() {
 
         {/* Calendar Section */}
         <section className="space-y-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center uppercase tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight text-center uppercase md:text-4xl">
             2025年9月 / September 2025
           </h2>
           
@@ -364,10 +406,10 @@ export default function Home() {
           {/* Tab Content */}
           <div className="space-y-4">
             {activeTab === 'dylan' && (
-              <div className="bg-blue-50 border-2 border-black p-6 card-brutal">
+              <div className="p-6 bg-blue-50 border-2 border-black card-brutal">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-accent">
+                    <h3 className="mb-2 text-xl font-bold text-accent">
                       {language === 'zh' ? 'Dylan - 产品视角' : 'Dylan - Product Perspective'}
                     </h3>
                     <p className="text-gray-700">
@@ -376,7 +418,7 @@ export default function Home() {
                         : 'Focused on product strategy, user growth, and market insights'}
                     </p>
                   </div>
-                  <div className="text-right flex space-x-8">
+                  <div className="flex space-x-8 text-right">
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
                       <div className="text-sm text-gray-600">{t.followerGrowth}</div>
@@ -390,10 +432,10 @@ export default function Home() {
               </div>
             )}
             {activeTab === 'yanxu' && (
-              <div className="bg-green-50 border-2 border-black p-6 card-brutal">
+              <div className="p-6 bg-green-50 border-2 border-black card-brutal">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-accent">
+                    <h3 className="mb-2 text-xl font-bold text-accent">
                       {language === 'zh' ? 'Yanxu - 技术视角' : 'Yanxu - Technical Perspective'}
                     </h3>
                     <p className="text-gray-700">
@@ -402,7 +444,7 @@ export default function Home() {
                         : 'Sharing technical implementation, development experience and engineering mindset'}
                     </p>
                   </div>
-                  <div className="text-right flex space-x-8">
+                  <div className="flex space-x-8 text-right">
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
                       <div className="text-sm text-gray-600">{t.followerGrowth}</div>
@@ -416,10 +458,10 @@ export default function Home() {
               </div>
             )}
             {activeTab === 'official' && (
-              <div className="bg-purple-50 border-2 border-black p-6 card-brutal">
+              <div className="p-6 bg-purple-50 border-2 border-black card-brutal">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-accent">
+                    <h3 className="mb-2 text-xl font-bold text-accent">
                       {language === 'zh' ? '官号' : 'Official'}
                     </h3>
                     <p className="text-gray-700">
@@ -428,7 +470,7 @@ export default function Home() {
                         : 'Official account for unified voice and brand building'}
                     </p>
                   </div>
-                  <div className="text-right flex space-x-8">
+                  <div className="flex space-x-8 text-right">
                     <div>
                       <div className="text-2xl font-bold text-accent">{realTimeStats.totalFollowerGrowth}</div>
                       <div className="text-sm text-gray-600">{t.followerGrowth}</div>
@@ -452,28 +494,28 @@ export default function Home() {
         </section>
 
         {/* Links Section */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Dylan Social Media */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight border-b-2 border-black pb-2">
+            <h2 className="pb-2 text-2xl font-bold tracking-tight uppercase border-b-2 border-black md:text-3xl">
               Dylan 社交媒体
             </h2>
             <div className="space-y-4">
-              <a href="https://x.com/xDylanLong" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://x.com/xDylanLong" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <X className="w-5 h-5" />
                   <span>X</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="https://www.linkedin.com/in/x-dylan-long/" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://www.linkedin.com/in/x-dylan-long/" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Linkedin className="w-5 h-5" />
                   <span>LinkedIn</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="https://www.xiaohongshu.com/user/profile/5df3742d000000000100212a?xsec_token=ABB-hUzSWHi3qP2vaQuPCG1o0NwHNZLahv-gntfdcqxO8=&xsec_source=pc_note" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://www.xiaohongshu.com/user/profile/5df3742d000000000100212a?xsec_token=ABB-hUzSWHi3qP2vaQuPCG1o0NwHNZLahv-gntfdcqxO8=&xsec_source=pc_note" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5" />
                   <span>小红书</span>
@@ -485,25 +527,25 @@ export default function Home() {
 
           {/* Yanxu Social Media */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight border-b-2 border-black pb-2">
+            <h2 className="pb-2 text-2xl font-bold tracking-tight uppercase border-b-2 border-black md:text-3xl">
               Yanxu 社交媒体
             </h2>
             <div className="space-y-4">
-              <a href="https://x.com/linyanxuZ" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://x.com/linyanxuZ" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <X className="w-5 h-5" />
                   <span>X</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="https://www.linkedin.com/in/linyanxu/" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://www.linkedin.com/in/linyanxu/" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Linkedin className="w-5 h-5" />
                   <span>LinkedIn</span>
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="https://www.xiaohongshu.com/user/profile/5fc667280000000001008084?xsec_token=YBo1_aJtlsVA8I3bm88Wh-fsXnLfFUqONqoH6xefdnoF8%3D&xsec_source=app_share&xhsshare=CopyLink&appuid=5fc667280000000001008084&apptime=1756797016&share_id=a13512e8bfc4431e8705a9ae7164fad9&share_channel=copy_link" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://www.xiaohongshu.com/user/profile/5fc667280000000001008084?xsec_token=YBo1_aJtlsVA8I3bm88Wh-fsXnLfFUqONqoH6xefdnoF8%3D&xsec_source=app_share&xhsshare=CopyLink&appuid=5fc667280000000001008084&apptime=1756797016&share_id=a13512e8bfc4431e8705a9ae7164fad9&share_channel=copy_link" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5" />
                   <span>小红书</span>
@@ -515,13 +557,13 @@ export default function Home() {
 
           {/* SnapSnap */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight border-b-2 border-black pb-2">
+            <h2 className="pb-2 text-2xl font-bold tracking-tight uppercase border-b-2 border-black md:text-3xl">
               SnapSnap
             </h2>
             <div className="space-y-4">
-              <a href="https://x-pilot-landing.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn-brutal-accent w-full flex items-center justify-between">
+              <a href="https://x-pilot-landing.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal-accent">
                 <div className="flex items-center space-x-3">
-                  <img src="/x-pilot-logo.jpg" alt="X-Pilot" className="w-5 h-5 object-contain" />
+                  <img src="/x-pilot-logo.jpg" alt="X-Pilot" className="object-contain w-5 h-5" />
                   <div className="flex flex-col">
                     <span>X-Pilot</span>
                     <span className="text-xs opacity-80">自动化社交媒体增长 · 冷启动助手</span>
@@ -529,7 +571,7 @@ export default function Home() {
                 </div>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <a href="https://discord.gg/CSkT2BdNKy" target="_blank" rel="noopener noreferrer" className="btn-brutal w-full flex items-center justify-between">
+              <a href="https://discord.gg/CSkT2BdNKy" target="_blank" rel="noopener noreferrer" className="flex justify-between items-center w-full btn-brutal">
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5" />
                   <span>Discord 社群</span>
@@ -543,8 +585,8 @@ export default function Home() {
 
       {/* Modal for Day Details */}
       {showModal && selectedDay && dailyDataState?.dailyData[selectedDay.toString()] && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white border-4 border-black p-6 max-w-md w-full card-brutal">
+        <div className="flex fixed inset-0 z-50 justify-center items-center p-4 bg-black bg-opacity-50">
+          <div className="p-6 w-full max-w-md bg-white border-4 border-black card-brutal">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold">
                 {language === 'zh' ? `9月${selectedDay}日` : `September ${selectedDay}`}
@@ -559,9 +601,9 @@ export default function Home() {
             
             <div className="space-y-4">
               <div>
-                <p className="font-semibold mb-2">
+                <p className="mb-2 font-semibold">
                   {language === 'zh' ? '粉丝增长:' : 'Follower Growth:'} 
-                  <span className="text-accent ml-2">
+                  <span className="ml-2 text-accent">
                     +{dailyDataState.dailyData[selectedDay.toString()].followerGrowth}
                   </span>
                 </p>
@@ -569,7 +611,7 @@ export default function Home() {
               
               {dailyDataState.dailyData[selectedDay.toString()].posts.length > 0 && (
                 <div>
-                  <p className="font-semibold mb-2">
+                  <p className="mb-2 font-semibold">
                     {language === 'zh' ? '发布内容:' : 'Posts:'}
                   </p>
                   <div className="space-y-2">
@@ -579,10 +621,10 @@ export default function Home() {
                         href={post.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block p-3 border-2 border-black hover:bg-accent hover:text-white transition-colors"
+                        className="block p-3 border-2 border-black transition-colors hover:bg-accent hover:text-white"
                       >
                         <div className="flex items-center space-x-2">
-                          <span className="text-xs bg-black text-white px-2 py-1 uppercase">
+                          <span className="px-2 py-1 text-xs text-white uppercase bg-black">
                             {post.type}
                           </span>
                           <span className="font-medium">{post.title}</span>
@@ -598,9 +640,9 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="border-t-4 border-black bg-black text-white mt-16">
-        <div className="container mx-auto px-4 py-8 text-center">
-          <p className="text-lg font-bold uppercase tracking-wide">
+      <footer className="mt-16 text-white bg-black border-t-4 border-black">
+        <div className="container px-4 py-8 mx-auto text-center">
+          <p className="text-lg font-bold tracking-wide uppercase">
             {language === 'zh' ? '让我们一起见证这个增长实验' : "Let's witness this growth experiment together"}
           </p>
           <p className="mt-2 opacity-80">
