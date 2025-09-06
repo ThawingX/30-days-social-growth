@@ -1,4 +1,4 @@
-{ 
+{
   "dailyData": {
     "3": {
       "date": "2025-09-03",
@@ -9,20 +9,36 @@
           "url": "https://x.com/xDylanLong/status/1962916122585677989",
           "type": "info"
         },
-         {
+        {
           "title": "Experiment 1 start- Dylan",
           "url": "https://x.com/xDylanLong/status/1963149773806227658",
           "type": "info"
         },
-         {
+        {
           "title": "How to find your Niche - Dylan",
           "url": "https://x.com/xDylanLong/status/1963164522455146570",
           "type": "tips"
         },
-         {
+        {
           "title": "Experiment 1 summary - Dylan",
           "url": "https://x.com/xDylanLong/status/1963506695105380557",
           "type": "summary"
+        }
+      ]
+    },
+    "4": {
+      "date": "2025-09-04",
+      "followerGrowth": 65,
+      "posts": [
+        {
+          "title": "Day 2 Summary - Dylan",
+          "url": "https://x.com/xDylanLong/status/1964192008786071650",
+          "type": "summary"
+        },
+        {
+          "title": "Connect other account- Dylan",
+          "url": "https://x.com/xDylanLong/status/1963804277157113941",
+          "type": "Connect"
         }
       ]
     }
