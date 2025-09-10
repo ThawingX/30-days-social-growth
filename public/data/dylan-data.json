@@ -41,6 +41,27 @@
           "type": "Connect"
         }
       ]
+    },
+     "5": {
+      "date": "2025-09-05",
+      "followerGrowth": 28,
+      "posts": [
+      
+      ]
+    },
+     "6": {
+      "date": "2025-09-06",
+      "followerGrowth": 18,
+      "posts": [
+        
+      ]
+    },
+     "7": {
+      "date": "2025-09-07",
+      "followerGrowth": 7,
+      "posts": [
+        
+      ]
     }
   }
 }
